@@ -14,6 +14,7 @@ public interface IAdministrateurDao extends JpaRepository<Administrateur,Integer
 	public Administrateur findByEmailAndMotDePasse(String email,String MotDePasse);
 	public Administrateur findByEmail(String email);
 	
+	
 	@Query("select a from Administrateur a where a.email=?1 and a.motDePasse=?2") 
 	public Administrateur getAdministrateurByEmailAndMotDePasse(String email, String motDePasse);
 	

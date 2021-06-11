@@ -29,8 +29,13 @@ public class Commande {
 	private Integer idCommande;
 	private String adresseLivraison;
 	private String etat;
+	private String methodeLivraison;
 	private Date dateLivraison;
+	@ManyToOne
+	@JoinColumn(name = "livreur_id")
+	private Livreur livreur;
 	private boolean archive;
+	private float chargeLivraison;
 	private float prixTotal;
 	@OneToMany(mappedBy = "commande" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -38,18 +43,16 @@ public class Commande {
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
-	private Utilisateur client;
+	private Client client;
 	
 	public Commande() {
 		super();
 	}
 	
-	
-	
-	
 
 	public Commande(Integer idCommande, String adresseLivraison, String etat, Date dateLivraison, boolean archive,
-			float prixTotal, List<LigneCommande> ligneCommande, Utilisateur client) {
+			float prixTotal, List<LigneCommande> ligneCommande, Client client, String methodeLivraison,
+			float chargeLivraison,Livreur livreur) {
 		super();
 		this.idCommande = idCommande;
 		this.adresseLivraison = adresseLivraison;
@@ -59,7 +62,45 @@ public class Commande {
 		this.prixTotal = prixTotal;
 		this.ligneCommande = ligneCommande;
 		this.client = client;
+		this.methodeLivraison=methodeLivraison;
+		this.chargeLivraison=chargeLivraison;
+		this.livreur=livreur;
 	}
+	
+	
+
+	public Livreur getLivreur() {
+		return livreur;
+	}
+
+
+	public void setLivreur(Livreur livreur) {
+		this.livreur = livreur;
+	}
+
+
+	public float getChargeLivraison() {
+		return chargeLivraison;
+	}
+
+	public void setChargeLivraison(float chargeLivraison) {
+		this.chargeLivraison = chargeLivraison;
+	}
+
+	public String getMethodeLivraison() {
+		return methodeLivraison;
+	}
+
+
+	public void setMethodeLivraison(String methodeLivraison) {
+		this.methodeLivraison = methodeLivraison;
+	}
+
+
+
+
+
+
 
 
 
@@ -74,13 +115,35 @@ public class Commande {
 	}
 
 	
-	public Utilisateur getClient() {
+	
+
+	public Client getClient() {
 		return client;
 	}
 
-	public void setClient(Utilisateur client) {
+
+
+
+
+
+
+
+
+
+
+	public void setClient(Client client) {
 		this.client = client;
 	}
+
+
+
+
+
+
+
+
+
+
 
 	public Integer getIdCommande() {
 		return idCommande;

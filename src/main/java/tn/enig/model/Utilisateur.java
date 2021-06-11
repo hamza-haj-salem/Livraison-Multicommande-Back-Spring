@@ -23,16 +23,15 @@ public class Utilisateur {
 	private String email;
 	private String motDePasse;
 	private String imageUrl;
+	private String numTelephone;
 	
 	
 	public Utilisateur() {
 		super();
 	}
 
-
-	
-	
-	public Utilisateur(Integer id, String nom, String prenom, String email, String motDePasse, String imageUrl) {
+	public Utilisateur(Integer id, String nom, String prenom, String email, String motDePasse, String imageUrl,
+			String numTelephone) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -40,9 +39,8 @@ public class Utilisateur {
 		this.email = email;
 		this.motDePasse = motDePasse;
 		this.imageUrl = imageUrl;
+		this.numTelephone = numTelephone;
 	}
-
-
 
 
 	public Integer getId() {
@@ -114,6 +112,14 @@ public class Utilisateur {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getNumTelephone() {
+		return numTelephone;
+	}
+
+	public void setNumTelephone(String numTelephone) {
+		this.numTelephone = numTelephone;
 	}
 
 

@@ -303,6 +303,7 @@ public class ServiceRestTestPFEENIG {
 		//ELLE VA CREER 2 CMD POUR LA 1 ERE FOIS UNIQUEMENT
 		@PostMapping("/ajouterCommande/")
 		public void  fct34(@RequestBody Commande c) {
+			
 			daocmd.save(c);		
 		}
 		
@@ -343,6 +344,11 @@ public class ServiceRestTestPFEENIG {
 				daocmd.save(c2);
 			} return  c2;
 			
+		}
+		@PostMapping("/creerCommande")
+		public void  fct53(@RequestBody Commande c) {
+			daocl.save(c.getClient());
+			daocmd.save(c);
 		}
 		
 		// hathi juste pour modifier l etat d'une cmd (à en cours) w9t l'admin yaffectiha pour un livreur
@@ -429,11 +435,17 @@ public class ServiceRestTestPFEENIG {
 			return a1;
 		}else return a2;
 	}
+	
+	
 	//MESSAGE : PARTIE CLIENT
 	@GetMapping("/listeAdminstrateur")
 	public List <Administrateur> fct49(){
 		List <Administrateur> la=daoa.findAll();
 		return la;
+	}
+	@PostMapping("/updateAdmin")
+	public void  fct54(@RequestBody Administrateur a) {
+		daoa.save(a);	
 	}
 	
 	//	COMMETER
