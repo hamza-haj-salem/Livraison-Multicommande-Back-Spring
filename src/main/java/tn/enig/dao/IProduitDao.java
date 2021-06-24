@@ -15,6 +15,7 @@ public interface IProduitDao extends JpaRepository<Produit, Integer> {
 	public List <Produit> findBytitreLike (String titre);
 	public List <Produit> findBynatureLike (String nature);
 	public List <Produit> findByprixBetween (float prixMin,float prixMax);
+	public List <Produit> findBytitreContaining (String titre);
 	
 	@Query("select p from Produit p where p.sousCategorie.id=?1") 
 	public List<Produit> getProduitByIdSousCategorie(Integer id);

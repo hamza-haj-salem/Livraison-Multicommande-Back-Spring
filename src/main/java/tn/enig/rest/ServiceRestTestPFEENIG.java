@@ -125,6 +125,10 @@ public class ServiceRestTestPFEENIG {
 	public List <Produit> fc9(@PathVariable("tireProd") String tireProd) {
 		return daop.findBytitreLike(tireProd);
 	}
+	@GetMapping("/listeProduitsByTitreContaining/{tireProd}")
+	public List <Produit> fc56(@PathVariable("tireProd") String tireProd) {
+		return daop.findBytitreContaining(tireProd);
+	}
 	@GetMapping("/listeProduitsByPrix/{prixMin}/{prixMax}")
 	public List <Produit> fc10(@PathVariable("prixMin") float prixMin,@PathVariable("prixMax") float prixMax) {
 		return daop.findByprixBetween(prixMin, prixMax);
@@ -279,6 +283,33 @@ public class ServiceRestTestPFEENIG {
 	
 
 	//COMMANDE
+	
+	// si l cmd mch mwjouda yzidha
+	// à utiliser dans l'ajout des commandes.
+	
+			@GetMapping("/getCommandeByClient/{idCl}")
+			public Commande  fct37(@PathVariable("idCl") int idCl) {
+				Commande c2 = new Commande();
+				Commande c= daocmd.getCommandeByClient(idCl);
+				if(c != null) {
+					return c;
+				}
+				else {
+					Client cl = daocl.findClientById(idCl);
+					c2.setClient(cl);
+					daocmd.save(c2);
+					return  c2;
+				} 
+				
+			}
+	
+	
+	// liste des commandes fini par client donnée
+	@GetMapping("/listeCommandeFiniParClient/{idCl}")
+	public List <Commande> fct54(@PathVariable("idCl") int idCl) {
+		List<Commande> listeCommandeFiniParClient=daocmd.getCommandeFiniByClient(idCl);
+		return  listeCommandeFiniParClient;
+	}
 
 	//liste des commande qui ne sont pas encore dans l'archive
 		@GetMapping("/listeCommande")
@@ -303,9 +334,12 @@ public class ServiceRestTestPFEENIG {
 		//ELLE VA CREER 2 CMD POUR LA 1 ERE FOIS UNIQUEMENT
 		@PostMapping("/ajouterCommande/")
 		public void  fct34(@RequestBody Commande c) {
-			
+	
 			daocmd.save(c);		
+			
 		}
+		
+		
 		
 		@PostMapping("/ajouterQuantiteLigneCommande")
 		public void fct35(@RequestBody Commande c) {	
@@ -333,18 +367,7 @@ public class ServiceRestTestPFEENIG {
 		}
 		
 		
-		// à utiliser dans l'ajout des commandes
-		@GetMapping("/getCommandeByClient/{idCl}")
-		public Commande  fct37(@PathVariable("idCl") int idCl) {
-			Commande c2 = new Commande();
-			Commande c= daocmd.getCommandeByClient(idCl);
-			if(c != null)
-				return c;
-			else {
-				daocmd.save(c2);
-			} return  c2;
-			
-		}
+		
 		@PostMapping("/creerCommande")
 		public void  fct53(@RequestBody Commande c) {
 			daocl.save(c.getClient());
@@ -361,10 +384,24 @@ public class ServiceRestTestPFEENIG {
 		
 	//LIGNE COMMANDE
 		
-	@DeleteMapping("/supprimerLigneCommande/{idLigneCommande}")
-	public void fct39(@PathVariable("idLigneCommande") int idLigneCommande) {
+	@DeleteMapping("/supprimerLigneCommande/{idCommande}/{idLigneCommande}")
+	public void fct39(@PathVariable("idLigneCommande") int idLigneCommande,@PathVariable("idCommande") int idCommande) {
+		LigneCommande lc=daolcmd.findByIdLigneCommande(idLigneCommande);
+		Commande c= daocmd.findByIdCommande(idCommande);
+		List<LigneCommande>newLc= new ArrayList<LigneCommande>();
+		for (LigneCommande l : c.getLigneCommande()) {
+			if(l.getIdLigneCommande()!=lc.getIdLigneCommande()) {
+				newLc.add(l);
+				daolcmd.save(l);
+			}else {
+				daolcmd.delete(l);
+			}
+		}
 		
-		 daolcmd.deleteById(idLigneCommande);
+		c.setLigneCommande(newLc);
+		
+		daocmd.save(c);
+		
 	}
 		
 	
@@ -467,5 +504,11 @@ public class ServiceRestTestPFEENIG {
 		
 		
 		//daocl.save(c);
+	}
+	//STATISTIQUE PROD
+	@GetMapping("/topProdVendue")
+	public List <Produit> fct53(){
+		List <Produit> lpMaxVendue=daolcmd.topProdVendue();
+		return lpMaxVendue;
 	}
 }

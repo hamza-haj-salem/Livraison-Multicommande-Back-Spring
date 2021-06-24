@@ -1,5 +1,7 @@
 package tn.enig.model;
 
+import java.util.List;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -26,6 +29,8 @@ public class Utilisateur {
 	private String numTelephone;
 	
 	
+	
+	
 	public Utilisateur() {
 		super();
 	}
@@ -40,8 +45,12 @@ public class Utilisateur {
 		this.motDePasse = motDePasse;
 		this.imageUrl = imageUrl;
 		this.numTelephone = numTelephone;
+		
 	}
+	
 
+
+	
 
 	public Integer getId() {
 		return id;

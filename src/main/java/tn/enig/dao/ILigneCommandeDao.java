@@ -23,6 +23,10 @@ public interface ILigneCommandeDao extends JpaRepository<LigneCommande, Integer>
 	@Query("select l.produit from LigneCommande l where l.commande.client.id=?1") 
 	public List<Produit> getProduitCommandeeByClient(int idCl);
 	
+	@Query("SELECT distinct l.produit FROM LigneCommande l ORDER BY l.produit ASC")
+	public List<Produit> topProdVendue();
+	
+	
 	
 
 }

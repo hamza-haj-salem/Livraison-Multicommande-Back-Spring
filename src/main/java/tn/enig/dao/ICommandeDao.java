@@ -20,10 +20,14 @@ public interface ICommandeDao extends JpaRepository<Commande, Integer> {
 	
 	
 	
-	@Query("select c from Commande c where c.client.id=?1") 
+	@Query("select c from Commande c where c.client.id=?1 and c.etat != 'fini'") 
 	public Commande getCommandeByClient(int idCl);
 	
+	@Query("select c from Commande c where c.client.id=?1 and c.etat = 'fini'") 
+	public List <Commande> getCommandeFiniByClient(int idCl);
+	
 	public Commande findCommandeByIdCommande(int idCommande);
+	
 	
 	
 	

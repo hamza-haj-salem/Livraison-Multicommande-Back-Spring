@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import tn.enig.model.Client;
+import tn.enig.model.Utilisateur;
 
 
 @Repository
@@ -18,5 +19,7 @@ public interface IClientDao extends JpaRepository<Client, Integer> {
 	
 	@Query("select c from Client c where c.email=?1") 
 	public Client getClientByEmail(String email);
+	
+	public Client findClientById(int id);
 
 }
